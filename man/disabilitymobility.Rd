@@ -5,7 +5,7 @@
 \alias{disabilitymobility}
 \title{Disability mobility data}
 \format{
-A data frame with 86,521 rows and 40 columns
+A data frame with 86521 rows and 40 columns
 \describe{
 \item{Household_ID}{Household identifier.}
 \item{Person_ID}{Person identifier.}
@@ -20,8 +20,8 @@ A data frame with 86,521 rows and 40 columns
 \item{Employment_status}{Primary activity in previous week.}
 \item{Household_income}{Household income.}
 \item{Household_structure}{Count of household members.}
-\item{Population_density}{Category of population density (persons per square mile) in the census block group of the household's home location.}
-\item{Urban_rural}{Household in urban/rural area.}
+\item{Population_density}{Category of population density, persons per square mile, in the census block group of the households home location.}
+\item{Urban_rural}{Household in urban or rural area.}
 \item{State}{Household state.}
 \item{Driver_status}{Driver status.}
 \item{Cane}{Does the respondent use a cane to aid their travel.}
@@ -39,14 +39,14 @@ A data frame with 86,521 rows and 40 columns
 \item{Count_of_bike_trips}{Count of bike trips in past week.}
 \item{Count_of_walk_trips}{Count of walk trips in past week.}
 \item{Count_of_online_delivery}{Count of times purchased online for delivery in last 30 days.}
-\item{Avg_num_of_people_on_trip}{Average number of people on the respondent’s trip including the respondent.}
+\item{Avg_num_of_people_on_trip}{Average number of people on the respondents trip including the respondent.}
 \item{Avg_trip_distance_in_miles}{Average trip distance in miles.}
 \item{Avg_trip_duration_in_minutes}{Average trip duration in minutes.}
-\item{Shopping_trip}{Number of shopping trips on the respondent’s travel day.}
-\item{Social_recreational_trip}{Number of social/recreational trips on the respondent’s travel day.}
-\item{Other_home_based_trip}{Number of other home-based trips on the respondent’s travel day.}
-\item{Work_trip}{Number of work trips on the respondent’s travel day.}
-\item{Other_non_home_based_trip}{Number of other non home-based trips on the respondent’s travel day.}
+\item{Shopping_trip}{Number of shopping trips on the respondents travel day. A travel day is a 24 hour day that starts at 4 am, local time, of the assigned travel day and ends at 359 am of the following day. The NHTS randomly assigns the travel days for one seventh of the sample addresses to each day of the week and the remaining six sevenths of the households to evenly across weekdays, Monday to Friday. The following variables are related to trip information on travel day.}
+\item{Social_recreational_trip}{Number of social or recreational trips on the respondents travel day.}
+\item{Other_home_based_trip}{Number of other homebased trips on the respondents travel day.}
+\item{Work_trip}{Number of work trips on the respondents travel day.}
+\item{Other_non_home_based_trip}{Number of other non homebased trips on the respondents travel day.}
 }
 }
 \source{
@@ -56,6 +56,6 @@ A data frame with 86,521 rows and 40 columns
 disabilitymobility
 }
 \description{
-A subset of data from the 2017 National Household Travel Survey.
+A subset of data from the 2017 national household travel survey.
 }
 \keyword{datasets}
