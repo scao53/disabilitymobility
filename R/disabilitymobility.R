@@ -2,7 +2,7 @@
 #'
 #' A subset of data from the 2017 National Household Travel Survey
 #'
-#' @format ## `disabilitymobility`
+#' @format
 #' A data frame with 86,521 rows and 40 columns:
 #' \describe{
 #'   \item{Household_ID}{Household identifier}
@@ -47,4 +47,4 @@
 #'   \item{Avg_trip_duration_in_minutes}{Average trip duration in minutes, including all modes of trips such as walk, bicycle, airplane, etc. 0-1140.00}
 #' }
 #' @source <https://nhts.ornl.gov/>
-"disabilitymobility"
+NULL

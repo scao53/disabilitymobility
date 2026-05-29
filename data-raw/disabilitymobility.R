@@ -247,6 +247,6 @@ col_order <- c("Household_ID", "Person_ID", "Travel_disability", "Sex", "Race", 
 
 per_selected_join_final_order <- per_selected_join_final[, col_order]
 
-save(per_selected_join_final_order, file = "datasets/disabilitymobility.rda")
+save(per_selected_join_final_order, file = "data/disabilitymobility.rda")
 
 usethis::use_data(disabilitymobility, overwrite = TRUE)
