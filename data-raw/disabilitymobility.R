@@ -208,7 +208,7 @@ per_selected_join_rename <- per_selected_join |>
          Scooter = W_SCOOTR, # Medical device used: Motorized scooter
          White_cane = W_WHCANE, # Medical device used: White cane
          Walker = W_WLKR, # Medical device used: Walker
-         No_accommodation = W_NONE, # Medical device used: None
+         Other_accommodation = W_NONE, # Medical device used: None
          #NOCONG # Trip time in minutes to work without traffic
          Count_of_online_delivery = DELIVER, # Count of times purchased online for delivery in last 30 days
          Avg_num_of_people_on_trip = Avg_num_of_people,
@@ -226,7 +226,7 @@ per_selected_join_wider <- per_selected_join_rename |>
               values_from = "Number_of_person_trips_on_travel_day")
 per_selected_join_wider[is.na(per_selected_join_wider)] <- 0
 per_selected_join_final <- per_selected_join_wider |>
-  group_by(Household_ID, Person_ID, Travel_disability, Sex, Race, Hispanic_ethnicity, Nativity, Age, Education, Self_rated_health, Employment_status, Household_income, Household_structure, Population_density, Urban_rural, State, Driver_status, Cane, Manual_wheelchair, Crutches, Dog, Motorized_wheelchair, Scooter, White_cane, Walker, No_accommodation) |>
+  group_by(Household_ID, Person_ID, Travel_disability, Sex, Race, Hispanic_ethnicity, Nativity, Age, Education, Self_rated_health, Employment_status, Household_income, Household_structure, Population_density, Urban_rural, State, Driver_status, Cane, Manual_wheelchair, Crutches, Dog, Motorized_wheelchair, Scooter, White_cane, Walker, Other_accommodation) |>
   dplyr::summarize(Yearly_miles_personally_driven = sum(Yearly_miles_personally_driven),
                    Count_of_public_transit_usage = sum(Count_of_public_transit_usage),
                    Count_of_rideshare_app_usage = sum(Count_of_rideshare_app_usage),
@@ -243,10 +243,10 @@ per_selected_join_final <- per_selected_join_wider |>
                    Shopping_trip = sum(Shopping_trip)
   )
 
-col_order <- c("Household_ID", "Person_ID", "Travel_disability", "Sex", "Race", "Hispanic_ethnicity", "Nativity", "Age", "Education", "Self_rated_health", "Employment_status", "Household_income", "Household_structure", "Population_density", "Urban_rural", "State", "Driver_status", "Cane", "Manual_wheelchair", "Crutches", "Dog", "Motorized_wheelchair", "Scooter", "White_cane", "Walker", "No_accommodation", "Yearly_miles_personally_driven", "Count_of_public_transit_usage", "Count_of_rideshare_app_usage", "Count_of_bike_trips", "Count_of_walk_trips", "Count_of_online_delivery", "Avg_num_of_people_on_trip", "Avg_trip_distance_in_miles", "Avg_trip_duration_in_minutes", "Shopping_trip", "Social_recreational_trip", "Other_home_based_trip", "Work_trip", "Other_non_home_based_trip")
+col_order <- c("Household_ID", "Person_ID", "Travel_disability", "Sex", "Race", "Hispanic_ethnicity", "Nativity", "Age", "Education", "Self_rated_health", "Employment_status", "Household_income", "Household_structure", "Population_density", "Urban_rural", "State", "Driver_status", "Cane", "Manual_wheelchair", "Crutches", "Dog", "Motorized_wheelchair", "Scooter", "White_cane", "Walker", "Other_accommodation", "Yearly_miles_personally_driven", "Count_of_public_transit_usage", "Count_of_rideshare_app_usage", "Count_of_bike_trips", "Count_of_walk_trips", "Count_of_online_delivery", "Avg_num_of_people_on_trip", "Avg_trip_distance_in_miles", "Avg_trip_duration_in_minutes", "Shopping_trip", "Social_recreational_trip", "Other_home_based_trip", "Work_trip", "Other_non_home_based_trip")
 
-per_selected_join_final_order <- per_selected_join_final[, col_order]
+disabilitymobility <- per_selected_join_final[, col_order]
 
-save(per_selected_join_final_order, file = "data/disabilitymobility.rda")
+save(disabilitymobility, file = "data/disabilitymobility.rda", compress = "xz")
 
-usethis::use_data(disabilitymobility, overwrite = TRUE)
+usethis::use_data(disabilitymobility, overwrite = TRUE, compress = "xz")
