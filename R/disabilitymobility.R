@@ -1,6 +1,6 @@
 #' Disability mobility data
 #'
-#' A subset of data from the 2017 national household travel survey.
+#' A subset of data from the national household travel survey.
 #'
 #' @format A data frame with 86521 rows and 40 columns
 #' \describe{
