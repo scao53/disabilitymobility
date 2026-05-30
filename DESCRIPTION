@@ -1,8 +1,10 @@
 Package: disabilitymobility
 Title: Disability and mobility datasets
 Version: 0.0.0.9000
-Authors@R: 
-    person("Shiya", "Cao", , "scao53@smith.edu", role = c("aut", "cre"))
+Authors@R: c(
+    person("Shiya", "Cao", email = "scao53@smith.edu", role = c("aut", "cre")),
+    person("Amber", "Zhang", email = "lzhang35@smith.edu", role = c("ctb")),
+    person("Anna", "Zhao", email = "azhao93@smith.edu", role = c("ctb")))
 Description: This package contains subsets of data from the national household travel survey. The disabilitymobility data includes disability, mobility, and other demographic categorical and numeric variables for data visualization and single table analysis.
 License: MIT + file LICENSE
 Encoding: UTF-8
