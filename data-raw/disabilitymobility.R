@@ -24,11 +24,11 @@ trip_selected <- trip |>
   dplyr::summarize(Avg_num_of_people = round(mean(NUMONTRP), digits = 0),
                    Avg_trip_distance = round(mean(TRPMILES), digits = 2),
                    Avg_trip_duration = round(mean(TRVLCMIN), digits = 2)) |>
-  mutate(TRIPPURP = case_when(TRIPPURP == "HBSHOP" ~ "Shopping_trip",
-                              TRIPPURP == "HBO" ~ "Other_home_based_trip",
-                              TRIPPURP == "HBSOCREC" ~ "Social_recreational_trip",
-                              TRIPPURP == "HBW" ~ "Work_trip",
-                              TRIPPURP == "NHB" ~ "Other_non_home_based_trip")) |>
+  mutate(TRIPPURP = case_when(TRIPPURP == "HBSHOP" ~ "shopping_trip",
+                              TRIPPURP == "HBO" ~ "other_home_based_trip",
+                              TRIPPURP == "HBSOCREC" ~ "social_recreational_trip",
+                              TRIPPURP == "HBW" ~ "work_trip",
+                              TRIPPURP == "NHB" ~ "other_non_home_based_trip")) |>
   filter(TRIPPURP != "-9")
 
 per_selected <- per |>
@@ -180,70 +180,69 @@ per_selected_join <- per_selected |>
 #per_selected_join[is.na(per_selected_join)] = 0
 
 per_selected_join_rename <- per_selected_join |>
-  rename(Household_ID = HOUSEID,
-         Person_ID = PERSONID,
-         Travel_disability = MEDCOND6,
-         Sex = R_SEX_IMP,
-         Race = R_RACE,
-         Hispanic_ethnicity = R_HISP,
-         Nativity = BORNINUS,
-         Age = R_AGE_IMP,
-         Education = EDUC,
-         Employment_status = PRMACT,
-         Self_rated_health = HEALTH,
-         Household_income = HHFAMINC,
-         Household_structure = HHSIZE,
-         Population_density = HBPPOPDN,
-         Driver_status = DRIVER,
-         Yearly_miles_personally_driven = YEARMILE, # Miles personally driven in all vehicles
-         Count_of_public_transit_usage = PTUSED, # Count of public transit usage
-         Count_of_rideshare_app_usage = RIDESHARE,
-         Count_of_bike_trips = NBIKETRP,
-         Count_of_walk_trips = NWALKTRP,
-         Cane = W_CANE, # Medical device used: Cane
-         Manual_wheelchair = W_CHAIR, # Medical device used: Wheelchair
-         Crutches = W_CRUTCH, # Medical device used: Crutches
-         Dog = W_DOG, # Medical device used: Dog assistance
-         Motorized_wheelchair = W_MTRCHR, # Medical device used: Motorized wheelchair
-         Scooter = W_SCOOTR, # Medical device used: Motorized scooter
-         White_cane = W_WHCANE, # Medical device used: White cane
-         Walker = W_WLKR, # Medical device used: Walker
-         Other_accommodation = W_NONE, # Medical device used: None
-         #NOCONG # Trip time in minutes to work without traffic
-         Count_of_online_delivery = DELIVER, # Count of times purchased online for delivery in last 30 days
-         Avg_num_of_people_on_trip = Avg_num_of_people,
-         Avg_trip_distance_in_miles = Avg_trip_distance,
-         Avg_trip_duration_in_minutes = Avg_trip_duration,
-         Trip_purpose = TRIPPURP,
-         Number_of_person_trips_on_travel_day = CNTTDTR,
-         Urban_rural = URBRUR,
-         State = HHSTATE
+  rename(household_id = HOUSEID,
+         person_id = PERSONID,
+         travel_disability = MEDCOND6,
+         sex = R_SEX_IMP,
+         race = R_RACE,
+         hispanic_ethnicity = R_HISP,
+         nativity = BORNINUS,
+         age = R_AGE_IMP,
+         education = EDUC,
+         employment_status = PRMACT,
+         self_rated_health = HEALTH,
+         household_income = HHFAMINC,
+         household_structure = HHSIZE,
+         population_density = HBPPOPDN,
+         driver_status = DRIVER,
+         yearly_miles_personally_driven = YEARMILE, # Miles personally driven in all vehicles
+         count_of_public_transit_usage = PTUSED, # Count of public transit usage
+         count_of_rideshare_app_usage = RIDESHARE,
+         count_of_bike_trips = NBIKETRP,
+         count_of_walk_trips = NWALKTRP,
+         cane = W_CANE, # Medical device used: Cane
+         manual_wheelchair = W_CHAIR, # Medical device used: Wheelchair
+         crutches = W_CRUTCH, # Medical device used: Crutches
+         dog = W_DOG, # Medical device used: Dog assistance
+         motorized_wheelchair = W_MTRCHR, # Medical device used: Motorized wheelchair
+         scooter = W_SCOOTR, # Medical device used: Motorized scooter
+         white_cane = W_WHCANE, # Medical device used: White cane
+         walker = W_WLKR, # Medical device used: Walker
+         other_accommodation = W_NONE, # Medical device used: None
+         count_of_online_delivery = DELIVER, # Count of times purchased online for delivery in last 30 days
+         avg_num_of_people_on_trip = Avg_num_of_people,
+         avg_trip_distance_in_miles = Avg_trip_distance,
+         avg_trip_duration_in_minutes = Avg_trip_duration,
+         trip_purpose = TRIPPURP,
+         number_of_person_trips_on_travel_day = CNTTDTR,
+         urban_rural = URBRUR,
+         state = HHSTATE
   ) |>
   dplyr::select(-MEDCOND)
 
 per_selected_join_wider <- per_selected_join_rename |>
-  pivot_wider(names_from = "Trip_purpose",
-              values_from = "Number_of_person_trips_on_travel_day")
+  pivot_wider(names_from = "trip_purpose",
+              values_from = "number_of_person_trips_on_travel_day")
 per_selected_join_wider[is.na(per_selected_join_wider)] <- 0
 per_selected_join_final <- per_selected_join_wider |>
-  group_by(Household_ID, Person_ID, Travel_disability, Sex, Race, Hispanic_ethnicity, Nativity, Age, Education, Self_rated_health, Employment_status, Household_income, Household_structure, Population_density, Urban_rural, State, Driver_status, Cane, Manual_wheelchair, Crutches, Dog, Motorized_wheelchair, Scooter, White_cane, Walker, Other_accommodation) |>
-  dplyr::summarize(Yearly_miles_personally_driven = sum(Yearly_miles_personally_driven),
-                   Count_of_public_transit_usage = sum(Count_of_public_transit_usage),
-                   Count_of_rideshare_app_usage = sum(Count_of_rideshare_app_usage),
-                   Count_of_bike_trips = sum(Count_of_bike_trips),
-                   Count_of_walk_trips = sum(Count_of_walk_trips),
-                   Count_of_online_delivery = sum(Count_of_online_delivery),
-                   Avg_num_of_people_on_trip = sum(Avg_num_of_people_on_trip),
-                   Avg_trip_distance_in_miles = sum(Avg_trip_distance_in_miles),
-                   Avg_trip_duration_in_minutes = sum(Avg_trip_duration_in_minutes),
-                   Other_home_based_trip = sum(Other_home_based_trip),
-                   Work_trip = sum(Work_trip),
-                   Social_recreational_trip = sum(Social_recreational_trip),
-                   Other_non_home_based_trip = sum(Other_non_home_based_trip),
-                   Shopping_trip = sum(Shopping_trip)
+  group_by(household_id, person_id, travel_disability, sex, race, hispanic_ethnicity, nativity, age, education, self_rated_health, employment_status, household_income, household_structure, population_density, urban_rural, state, driver_status, cane, manual_wheelchair, crutches, dog, motorized_wheelchair, scooter, white_cane, walker, other_accommodation) |>
+  dplyr::summarize(yearly_miles_personally_driven = sum(yearly_miles_personally_driven),
+                   count_of_public_transit_usage = sum(count_of_public_transit_usage),
+                   count_of_rideshare_app_usage = sum(count_of_rideshare_app_usage),
+                   count_of_bike_trips = sum(count_of_bike_trips),
+                   count_of_walk_trips = sum(count_of_walk_trips),
+                   count_of_online_delivery = sum(count_of_online_delivery),
+                   avg_num_of_people_on_trip = sum(avg_num_of_people_on_trip),
+                   avg_trip_distance_in_miles = sum(avg_trip_distance_in_miles),
+                   avg_trip_duration_in_minutes = sum(avg_trip_duration_in_minutes),
+                   other_home_based_trip = sum(other_home_based_trip),
+                   work_trip = sum(work_trip),
+                   social_recreational_trip = sum(social_recreational_trip),
+                   other_non_home_based_trip = sum(other_non_home_based_trip),
+                   shopping_trip = sum(shopping_trip)
   )
 
-col_order <- c("Household_ID", "Person_ID", "Travel_disability", "Sex", "Race", "Hispanic_ethnicity", "Nativity", "Age", "Education", "Self_rated_health", "Employment_status", "Household_income", "Household_structure", "Population_density", "Urban_rural", "State", "Driver_status", "Cane", "Manual_wheelchair", "Crutches", "Dog", "Motorized_wheelchair", "Scooter", "White_cane", "Walker", "Other_accommodation", "Yearly_miles_personally_driven", "Count_of_public_transit_usage", "Count_of_rideshare_app_usage", "Count_of_bike_trips", "Count_of_walk_trips", "Count_of_online_delivery", "Avg_num_of_people_on_trip", "Avg_trip_distance_in_miles", "Avg_trip_duration_in_minutes", "Shopping_trip", "Social_recreational_trip", "Other_home_based_trip", "Work_trip", "Other_non_home_based_trip")
+col_order <- c("household_id", "person_id", "travel_disability", "sex", "race", "hispanic_ethnicity", "nativity", "age", "education", "self_rated_health", "employment_status", "household_income", "household_structure", "population_density", "urban_rural", "state", "driver_status", "cane", "manual_wheelchair", "crutches", "dog", "motorized_wheelchair", "scooter", "white_cane", "walker", "other_accommodation", "yearly_miles_personally_driven", "count_of_public_transit_usage", "count_of_rideshare_app_usage", "count_of_bike_trips", "count_of_walk_trips", "count_of_online_delivery", "avg_num_of_people_on_trip", "avg_trip_distance_in_miles", "avg_trip_duration_in_minutes", "shopping_trip", "social_recreational_trip", "other_home_based_trip", "work_trip", "other_non_home_based_trip")
 
 disabilitymobility <- per_selected_join_final[, col_order]
 

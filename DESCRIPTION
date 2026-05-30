@@ -3,7 +3,7 @@ Title: Disability and mobility datasets
 Version: 0.0.0.9000
 Authors@R: 
     person("Shiya", "Cao", , "scao53@smith.edu", role = c("aut", "cre"))
-Description: Disability and mobility datasets
+Description: This package contains subsets of data from the national household travel survey. The disabilitymobility data includes disability, mobility, and other demographic categorical and numeric variables for data visualization and single table analysis.
 License: MIT + file LICENSE
 Encoding: UTF-8
 Roxygen: list(markdown = TRUE)
