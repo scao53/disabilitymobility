@@ -5,8 +5,6 @@ trip <- read_csv("~/DisabilityInclusionAnalyticsLab/data_sources/national_househ
 
 per <- read_csv("~/DisabilityInclusionAnalyticsLab/data_sources/national_household_travel_survey/perpub.csv")
 
-hh <- read_csv("~/DisabilityInclusionAnalyticsLab/data_sources/national_household_travel_survey/hhpub.csv")
-
 trip_selected <- trip |>
   dplyr::select(HOUSEID,
                 PERSONID,
@@ -18,7 +16,6 @@ trip_selected <- trip |>
                 TRPMILES, # Trip distance in miles, derived from route geometry returned
                 TRVLCMIN, # Trip Duration in Minutes
                 VMT_MILE) |>  # Trip distance in miles for personally driven vehicle trips
-  #filter(TRIPPURP != -9) |>
   filter(NUMONTRP != -9 & TRPMILES != -9 & TRVLCMIN != -9) |>
   group_by(HOUSEID, PERSONID, TRIPPURP) |>
   dplyr::summarize(Avg_num_of_people = round(mean(NUMONTRP), digits = 0),
@@ -61,9 +58,7 @@ per_selected <- per |>
                 W_NONE, # Medical device used: None
                 YEARMILE, # Miles personally driven in all vehicles
                 PTUSED, # Count of public transit usage
-                #NOCONG, # Trip time in minutes to work without traffic
                 DELIVER, # Count of times purchased online for delivery in last 30 days
-                #CONDNIGH, CONDPUB, CONDRIVE, CONDSPEC, CONDTRAV, CONDTAX, CONDRIDE
                 CNTTDTR, # Count of person trips on travel day
                 URBRUR, # Household in urban/rural area
                 EDUC, # Educational attainment
@@ -109,20 +104,6 @@ per_selected <- per |>
                               MEDCOND6 == "02" ~ "More_than_6_months_of_disability",
                               MEDCOND6 == "03" ~ "Lifelong_disability",
                               TRUE ~ "No_disability")) |>
-  #mutate(CONDNIGH = case_when(CONDNIGH == "01" ~ 1,
-  #TRUE ~ 0)) |>
-  #mutate(CONDPUB = case_when(CONDPUB == "01" ~ 1,
-  #TRUE ~ 0)) |>
-  #mutate(CONDRIVE = case_when(CONDRIVE == "01" ~ 1,
-  #TRUE ~ 0)) |>
-  #mutate(CONDSPEC = case_when(CONDSPEC == "01" ~ 1,
-  #TRUE ~ 0)) |>
-  #mutate(CONDTRAV = case_when(CONDTRAV == "01" ~ 1,
-  #TRUE ~ 0)) |>
-  #mutate(CONDTAX = case_when(CONDTAX == "01" ~ 1,
-  #TRUE ~ 0)) |>
-  #mutate(CONDRIDE = case_when(CONDRIDE == "01" ~ 1,
-  #TRUE ~ 0)) |>
   mutate(R_SEX_IMP = case_when(R_SEX_IMP == "01" ~ "Male",
                                R_SEX_IMP == "02" ~ "Female")) |>
   mutate(R_RACE = case_when(R_RACE == "01" ~ "White",
@@ -173,11 +154,8 @@ per_selected <- per |>
                           EDUC == "05" ~ "Graduate degree or professional degree"))
 
 per_selected_join <- per_selected |>
-  #left_join(hh_selected, by = c("HOUSEID" = "HOUSEID"))
   inner_join(trip_selected, by = c("HOUSEID" = "HOUSEID", "PERSONID" = "PERSONID")) |>
   filter(if_any(c(Avg_num_of_people:Avg_trip_duration), ~ !is.na(.)))
-
-#per_selected_join[is.na(per_selected_join)] = 0
 
 per_selected_join_rename <- per_selected_join |>
   rename(household_id = HOUSEID,
