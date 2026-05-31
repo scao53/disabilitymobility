@@ -1,6 +1,6 @@
 #' Disability mobility data
 #'
-#' Include disability, mobility, and other demographic categorical and numeric variables for data visualization and single table analysis.
+#' Include disability and other demographic as well as mobility and trip categorical and numeric variables for data visualization and single table analysis.
 #'
 #' @format A data frame with 86521 rows and 40 columns
 #' \describe{
